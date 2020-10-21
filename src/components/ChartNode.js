@@ -30,7 +30,7 @@ const ChartNode = ({
 }) => {
   const node = useRef();
 
-  const [isChildrenCollapsed, setIsChildrenCollapsed] = useState(false);
+  const [isChildrenCollapsed, setIsChildrenCollapsed] = useState(true);
   const [topEdgeExpanded, setTopEdgeExpanded] = useState();
   const [rightEdgeExpanded, setRightEdgeExpanded] = useState();
   const [bottomEdgeExpanded, setBottomEdgeExpanded] = useState();
@@ -46,7 +46,6 @@ const ChartNode = ({
   ]
     .filter(item => item)
     .join(" ");
-
   useEffect(() => {
     const subs1 = dragNodeService.getDragInfo().subscribe(draggedInfo => {
       if (draggedInfo) {
@@ -95,11 +94,12 @@ const ChartNode = ({
     const isSiblingsCollapsed = Array.from(
       node.parentNode.children
     ).some(item => item.classList.contains("hidden"));
-
+      
     setTopEdgeExpanded(!isAncestorsCollapsed);
     setRightEdgeExpanded(!isSiblingsCollapsed);
     setLeftEdgeExpanded(!isSiblingsCollapsed);
     setBottomEdgeExpanded(!isChildrenCollapsed);
+    
   };
 
   const removeArrows = () => {
@@ -246,7 +246,8 @@ const ChartNode = ({
         onMouseLeave={removeArrows}
       >
         {NodeTemplate ? (
-          <NodeTemplate nodeData={datasource} />
+          // <NodeTemplate nodeData={datasource} /> 
+          ""
         ) : (
           <>
             <div className="oc-heading">
@@ -256,9 +257,13 @@ const ChartNode = ({
                 //   <i className="oci oci-leader oc-symbol" />
                 // )
                 }
+               
               {datasource.name}
+
+              {/* <img src=""/> */}
             </div>
-            <div className="oc-content">{datasource.title}</div>
+            
+            {/* <div className="oc-content">{datasource.title}</div> */}
           </>
         )}
         {collapsible &&

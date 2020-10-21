@@ -19,8 +19,9 @@
   top: -11px;
   left: 0;
   width: 100%;
-  border-top: 2px solid rgba(111, 217, 79, 0.8);
-  box-sizing: border-box;
+   border-top: 2px solid rgba(111, 217, 79, 0.8);
+  /*box-sizing: border-box; */
+  border-radius: 50%;
 }
 
 .orgchart > ul > li > ul li.isSiblingsCollapsed::before {
@@ -40,12 +41,13 @@
   width: 2px;
 }
 .orgchart ul li .oc-node {
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   display: inline-block;
   position: relative;
   padding: 3px;
-  border: 2px dashed transparent;
+  /* border: 2px dashed transparent; */
   margin-bottom: 20px;
+  border-radius: 50%;
 }
 .orgchart ul li .oc-node.allowedDrop {
   border-color: rgba(68, 157, 68, 0.9);
@@ -87,7 +89,7 @@
   left: calc(50% - 1px);
   width: 2px;
   height: 9px;
-  background-color:  rgba(111, 217, 79, 0.8);
+  background-color:  rgba(68, 157, 68, 0.9);;
 }
 
 .orgchart ul li .oc-node.isChildrenCollapsed:not(:only-child)::after {
@@ -95,20 +97,20 @@
 }
 
 .orgchart ul li .oc-node .oc-heading {
-  box-sizing: border-box;
-  padding: 2px;
+  /* box-sizing: border-box; */
+  padding: 17px;
   margin: 0;
-  width: 130px;
-  height: 20px;
+  width: 100px;
+  height: 50px;
   text-align: center;
   font-size: 0.75rem;
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  background-color: rgba(37, 37, 37, 0.8);
+  background-color:rgba(37, 37, 37, 0.8);
   color: #fff;
-  border-radius: 4px 4px 0 0;
+  border-radius: 50%;
 }
 
 .orgchart ul li .oc-node .oc-heading .oc-symbol {
@@ -119,7 +121,8 @@
 
 .orgchart ul li .oc-node .oc-heading .oc-symbol::before {
   background-color: #fff;
-  border-color:  rgba(111, 217, 79, 0.8);
+  border-color:  rgba(68, 157, 68, 0.9);;
+  
 }
 
 .orgchart ul li .oc-node .oc-heading .oc-symbol::after {
@@ -127,13 +130,13 @@
 }
 
 .orgchart ul li .oc-node .oc-content {
-  box-sizing: border-box;
+  /* box-sizing: border-box; */
   padding: 2px;
-  width: 130px;
+  width: 100px;
   height: 20px;
   font-size: 0.625rem;
   border: 1px solid  rgba(111, 217, 79, 0.8);
-  border-radius: 0 0 4px 4px;
+  border-radius: 50%;
   text-align: center;
   background-color: #fff;
   color: #333;
