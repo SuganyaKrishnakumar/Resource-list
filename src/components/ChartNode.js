@@ -37,6 +37,7 @@ const ChartNode = ({
   const [leftEdgeExpanded, setLeftEdgeExpanded] = useState();
   const [allowedDrop, setAllowedDrop] = useState(false);
   const [selected, setSelected] = useState(false);
+  const [shown, setShown] = useState(false);
 
   const nodeClass = [
     "oc-node",
@@ -230,8 +231,54 @@ const ChartNode = ({
     );
   };
 
+  const selectNode = () => {
+    if(datasource.empcode){        
+       setShown(true)
+       console.log("HI")
+
+    }
+    // else{
+    //   alert("I'm " + datasource.name + ". I'm a " + datasource.title + ".");
+    // }
+   
+    
+  };
+  const close = () => {
+    setShown(false)
+  }
+
   return (
+
     <li className="oc-hierarchy">
+           <div style={{backgroundColor: 'blue', display:shown?'block':'none'}}>
+               <div className="modal"> 
+                  <div className="modal-content">
+                    <span className="close" onClick={close}>&times;</span>
+                    <div className = "sub-conent">
+                      <table>
+                      <tr>
+                        <td><strong>Name:</strong></td>
+                        <td>{datasource.name}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>EmpCode:</strong></td>
+                        <td>{datasource.empcode}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Vertical:</strong></td>
+                        <td>{datasource.title}</td>
+                      </tr>
+                       
+                      </table>
+                      {/* <p>Name: {datasource.name}</p>
+                      <p>EmpCode: {datasource.empcode}</p>
+                      <p>Vertical: {datasource.title}</p> */}
+                    </div>
+                    
+                  </div>
+
+                  </div>
+              </div>
       <div
         ref={node}
         id={datasource.id}
@@ -247,10 +294,10 @@ const ChartNode = ({
       >
         {NodeTemplate ? (
           // <NodeTemplate nodeData={datasource} /> 
-          ""
+        ""
         ) : (
           <>
-            <div className="oc-heading">
+            <div className="oc-heading" onClick={selectNode}>
               {datasource.relationship &&
                 datasource.relationship.charAt(2) === "1" 
                 // && (
