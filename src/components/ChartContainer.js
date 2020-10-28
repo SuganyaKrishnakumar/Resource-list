@@ -298,7 +298,7 @@ const ChartContainer = forwardRef(
       <div
         ref={container}
         className={"orgchart-container " + containerClass}
-        onWheel={zoom ? zoomHandler : undefined}
+     //   onWheel={zoom ? zoomHandler : undefined}
       //  onMouseUp={pan && panning ? panEndHandler : undefined}
       >
         <div

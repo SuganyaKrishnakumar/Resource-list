@@ -111,6 +111,9 @@
   background-color:rgba(37, 37, 37, 0.8);
   color: #fff;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .orgchart ul li .oc-node .oc-heading .oc-symbol {
@@ -534,3 +537,60 @@ button:active {
   background-color: #fff;
 }
 
+.oc-node .oc-heading .tooltip {
+  visibility: hidden;
+  position: absolute;
+  top: 95px;
+  left: 55px;
+  color: rgb(41, 41, 41);
+  padding: 10px;
+  width: 300px;
+  z-index: 1000;
+  background-color: #dadada;
+  border: 1px solid #b8f1e0;
+  border-radius: 20px;
+  box-shadow: 7px 7px 7px #00000029;
+}
+
+.oc-node .oc-heading:hover .tooltip {
+  visibility: visible;
+}
+
+.triangle {
+  display: block;
+  height: 13px;
+  width: 13px;
+  background-color: inherit;
+  border: inherit;
+  position: absolute;
+  top: -7px;
+  left: 28px;
+  -webkit-clip-path: polygon(100% 0,100% 100%,0 100%);
+  clip-path: polygon(0 0,100% 100%,0 100%);
+  transform: rotate(135deg);
+  border-radius: 0 0 0 .25em;
+}
+
+.tooltip .tool-container {
+  font-size: 14px;
+  padding: 10px;
+  color: rgb(82, 82, 82);
+}
+
+.tooltip .tool-container .datarow {
+  display: flex;
+}
+
+.tooltip .tool-container .datarow .label {
+  flex: 4;
+  text-align: left;
+}
+
+.tooltip .tool-container .datarow .separater {
+  flex: 2;
+}
+
+.tooltip .tool-container .datarow .data {
+  flex: 4;
+  text-align: right;
+}

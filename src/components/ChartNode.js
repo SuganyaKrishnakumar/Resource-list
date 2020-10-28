@@ -38,6 +38,7 @@ const ChartNode = ({
   const [allowedDrop, setAllowedDrop] = useState(false);
   const [selected, setSelected] = useState(false);
   const [shown, setShown] = useState(false);
+  const [showTooltip, setShowToolTip] = useState(true);
 
   const nodeClass = [
     "oc-node",
@@ -95,12 +96,12 @@ const ChartNode = ({
     const isSiblingsCollapsed = Array.from(
       node.parentNode.children
     ).some(item => item.classList.contains("hidden"));
-      
+
     setTopEdgeExpanded(!isAncestorsCollapsed);
     setRightEdgeExpanded(!isSiblingsCollapsed);
     setLeftEdgeExpanded(!isSiblingsCollapsed);
     setBottomEdgeExpanded(!isChildrenCollapsed);
-    
+
   };
 
   const removeArrows = () => {
@@ -203,6 +204,7 @@ const ChartNode = ({
   };
 
   const dragstartHandler = event => {
+    setShowToolTip(false)
     const copyDS = { ...datasource };
     delete copyDS.relationship;
     event.dataTransfer.setData("text/plain", JSON.stringify(copyDS));
@@ -221,6 +223,7 @@ const ChartNode = ({
   };
 
   const dropHandler = event => {
+    setShowToolTip(true)
     if (!event.currentTarget.classList.contains("allowedDrop")) {
       return;
     }
@@ -232,16 +235,11 @@ const ChartNode = ({
   };
 
   const selectNode = () => {
-    if(datasource.empcode){        
-       setShown(true)
-       console.log("HI")
-
+    if (datasource.empcode) {
+      setShown(true)
     }
-    // else{
-    //   alert("I'm " + datasource.name + ". I'm a " + datasource.title + ".");
-    // }
-   
-    
+
+
   };
   const close = () => {
     setShown(false)
@@ -250,35 +248,33 @@ const ChartNode = ({
   return (
 
     <li className="oc-hierarchy">
-           <div style={{backgroundColor: 'blue', display:shown?'block':'none'}}>
-               <div className="modal"> 
-                  <div className="modal-content">
-                    <span className="close" onClick={close}>&times;</span>
-                    <div className = "sub-conent">
-                      <table>
-                      <tr>
-                        <td><strong>Name:</strong></td>
-                        <td>{datasource.name}</td>
-                      </tr>
-                      <tr>
-                        <td><strong>EmpCode:</strong></td>
-                        <td>{datasource.empcode}</td>
-                      </tr>
-                      <tr>
-                        <td><strong>Vertical:</strong></td>
-                        <td>{datasource.title}</td>
-                      </tr>
-                       
-                      </table>
-                      {/* <p>Name: {datasource.name}</p>
-                      <p>EmpCode: {datasource.empcode}</p>
-                      <p>Vertical: {datasource.title}</p> */}
-                    </div>
-                    
-                  </div>
+      <div style={{ backgroundColor: 'blue', display: shown ? 'block' : 'none' }}>
+        <div className="modal">
+          <div className="modal-content">
+            <span className="close" onClick={close}>&times;</span>
+            <div className="sub-conent">
+              <table>
+                <tr>
+                  <td><strong>Name:</strong></td>
+                  <td>{datasource.name}</td>
+                </tr>
+                <tr>
+                  <td><strong>EmpCode:</strong></td>
+                  <td>{datasource.empcode}</td>
+                </tr>
+                <tr>
+                  <td><strong>Vertical:</strong></td>
+                  <td>{datasource.title}</td>
+                </tr>
 
-                  </div>
-              </div>
+              </table>
+            
+            </div>
+
+          </div>
+
+        </div>
+      </div>
       <div
         ref={node}
         id={datasource.id}
@@ -294,36 +290,61 @@ const ChartNode = ({
       >
         {NodeTemplate ? (
           // <NodeTemplate nodeData={datasource} /> 
-        ""
+          ""
         ) : (
-          <>
-            <div className="oc-heading" onClick={selectNode}>
-              {datasource.relationship &&
-                datasource.relationship.charAt(2) === "1" 
-                // && (
-                //   <i className="oci oci-leader oc-symbol" />
-                // )
+            <>
+              <div className="oc-heading" >  
+              {/* onClick={selectNode} */}
+                {datasource.relationship &&
+                  datasource.relationship.charAt(2) === "1"
+                  // && (
+                  //   <i className="oci oci-leader oc-symbol" />
+                  // )
                 }
-               
-              {datasource.name}
 
-              {/* <img src=""/> */}
-            </div>
-            
-            {/* <div className="oc-content">{datasource.title}</div> */}
-          </>
-        )}
+                {datasource.name}
+
+                {
+                 datasource.empcode && showTooltip ?
+                    <div className="tooltip">
+                      <div className="triangle"></div>
+                      {datasource.name}
+                      <hr style={{ width: '75%' }} />
+                      <div className="tool-container">
+                        <div className="datarow">
+                          <span className="label">ID</span>
+                          <span className="separater">:</span>
+                          <span className="data">{datasource.empcode}</span>
+                        </div>
+                        <div className="datarow">
+                          <span className="label">NAME</span>
+                          <span className="separater">:</span>
+                          <span className="data">{datasource.name}</span>
+                        </div>
+                        <div className="datarow">
+                          <span className="label">VERTICAL</span>
+                          <span className="separater">:</span>
+                          <span className="data">{datasource.title}</span>
+                        </div>
+                      </div>
+                    </div>
+                    : null
+                }
+              </div>
+
+              {/* <div className="oc-content">{datasource.title}</div> */}
+            </>
+          )}
         {collapsible &&
           datasource.relationship &&
           datasource.relationship.charAt(0) === "1" && (
             <i
-              className={`oc-edge verticalEdge topEdge oci ${
-                topEdgeExpanded === undefined
-                  ? ""
-                  : topEdgeExpanded
+              className={`oc-edge verticalEdge topEdge oci ${topEdgeExpanded === undefined
+                ? ""
+                : topEdgeExpanded
                   ? "oci-chevron-down"
                   : "oci-chevron-up"
-              }`}
+                }`}
               onClick={topEdgeClickHandler}
             />
           )}
@@ -332,23 +353,21 @@ const ChartNode = ({
           datasource.relationship.charAt(1) === "1" && (
             <>
               <i
-                className={`oc-edge horizontalEdge rightEdge oci ${
-                  rightEdgeExpanded === undefined
-                    ? ""
-                    : rightEdgeExpanded
+                className={`oc-edge horizontalEdge rightEdge oci ${rightEdgeExpanded === undefined
+                  ? ""
+                  : rightEdgeExpanded
                     ? "oci-chevron-left"
                     : "oci-chevron-right"
-                }`}
+                  }`}
                 onClick={hEdgeClickHandler}
               />
               <i
-                className={`oc-edge horizontalEdge leftEdge oci ${
-                  leftEdgeExpanded === undefined
-                    ? ""
-                    : leftEdgeExpanded
+                className={`oc-edge horizontalEdge leftEdge oci ${leftEdgeExpanded === undefined
+                  ? ""
+                  : leftEdgeExpanded
                     ? "oci-chevron-right"
                     : "oci-chevron-left"
-                }`}
+                  }`}
                 onClick={hEdgeClickHandler}
               />
             </>
@@ -357,13 +376,12 @@ const ChartNode = ({
           datasource.relationship &&
           datasource.relationship.charAt(2) === "1" && (
             <i
-              className={`oc-edge verticalEdge bottomEdge oci ${
-                bottomEdgeExpanded === undefined
-                  ? ""
-                  : bottomEdgeExpanded
+              className={`oc-edge verticalEdge bottomEdge oci ${bottomEdgeExpanded === undefined
+                ? ""
+                : bottomEdgeExpanded
                   ? "oci-chevron-up"
                   : "oci-chevron-down"
-              }`}
+                }`}
               onClick={bottomEdgeClickHandler}
             />
           )}
